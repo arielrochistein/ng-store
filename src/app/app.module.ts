@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
+import { HttpClientModule } from '@angular/common/http';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -18,6 +20,8 @@ import { MaterialModule } from './material/material.module';
     HomeModule,
     SharedModule,
     MaterialModule,
+    HttpClientModule,
+    AdminModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
