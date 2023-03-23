@@ -2,12 +2,11 @@
   <div class="sidebar__inner">
     <a routerLink="/admin">Admin</a>
     <a (click)="navigateToHome()">Home</a>
+    <a (click)="openLogin()">Login</a>
   </div>
 </div>
 <div
   class="backdrop"
   (click)="closeSidebar()"
   [ngClass]="{ 'backdrop--open': isOpen }"
->
-  Backdrop
-</div>
+></div>

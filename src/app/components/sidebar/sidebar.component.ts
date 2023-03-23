@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,7 +14,7 @@ export class SidebarComponent {
 
   @Output() onCloseSidebar: EventEmitter<void> = new EventEmitter();
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public dialog: MatDialog) {
     router.events
       .pipe(filter((e) => e instanceof NavigationStart))
       .subscribe((e) => {
@@ -26,5 +28,11 @@ export class SidebarComponent {
 
   public navigateToHome(): void {
     this.router.navigate(['/']);
+  }
+
+  public openLogin(): void {
+    const dialogRef = this.dialog.open(LoginComponent, {
+      data: {},
+    });
   }
 }
