@@ -1,0 +1,52 @@
+<div class="login">
+  <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
+    <div class="login__field">
+      <mat-form-field class="example-full-width">
+        <mat-label>Email</mat-label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          matInput
+          placeholder="Ex. pat@example.com"
+          ngModel
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="login__field">
+      <mat-form-field class="example-full-width">
+        <mat-label>Password</mat-label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          matInput
+          ngModel
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="login__field">
+      <mat-form-field appearance="fill">
+        <mat-label>Role</mat-label>
+        <mat-select [(ngModel)]="selectedValue" name="role" required>
+          <mat-option *ngFor="let role of roles" [value]="role.value">
+            {{ role.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="login__actions">
+      <button
+        [disabled]="!loginForm.valid"
+        mat-raised-button
+        color="accent"
+        type="submit"
+      >
+        Login
+      </button>
+    </div>
+  </form>
+</div>
