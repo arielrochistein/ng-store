@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.productService.getProducts$().subscribe((data) => {
+      console.log('all products', data);
       this.products = data;
     });
   }
@@ -23,5 +24,5 @@ export class HomeComponent implements OnInit, OnDestroy {
   /*
   1. add input to app-card component
   2. inside app card display all product fields
-   */
+  */
 }

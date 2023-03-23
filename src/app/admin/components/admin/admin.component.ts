@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -12,58 +11,48 @@ import { IProduct } from 'src/app/shared/models';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
-  public dataSource: MatTableDataSource<IProduct> = new MatTableDataSource();
-  public displayedColumns: string[] = [
-    'id',
-    'title',
-    'price',
-    'description',
-    'category',
-    'image',
-    'rate',
-    'count',
-    'menu',
-  ];
+  constructor(private productService: ProductService) {}
+
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
-  constructor(
-    private productService: ProductService,
-    private _liveAnnouncer: LiveAnnouncer
-  ) {}
+  public displayedColumns: Array<string> = [];
+  public dataSource: MatTableDataSource<IProduct> = new MatTableDataSource();
 
   ngOnInit() {
     this.productService.getProducts$().subscribe((data) => {
-      console.log('all products', data);
-      this.dataSource = new MatTableDataSource(data);
-      if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
-      }
-      if (this.sort) {
-        this.dataSource.sort = this.sort;
-      }
+      this.initTable(data);
+      this.initFilterAndPagination();
     });
   }
 
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  // }
-
-  applyFilter(event: Event) {
+  public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
   }
 
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+  private initTable(data: IProduct[]): void {
+    console.log('all products', data);
+    this.displayedColumns = Object.keys(data[0]);
+    this.displayedColumns.push('edit');
+    this.dataSource = new MatTableDataSource(data);
+  }
+
+  initFilterAndPagination() {
+    if (this.paginator && this.sort) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }
+  }
+
+  ngAfterViewInit() {
+    this.initFilterAndPagination();
   }
 }
