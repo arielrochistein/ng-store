@@ -11,8 +11,9 @@ import { IProduct } from 'src/app/shared/models';
 })
 export class EditProductComponent implements OnInit, OnDestroy {
   private sub: Subscription = new Subscription();
-  public id: number = 0;
-  public product: IProduct = null;
+
+  public product: IProduct;
+  public id: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,12 +27,14 @@ export class EditProductComponent implements OnInit, OnDestroy {
         console.log(this.id);
 
         this.product = this.productService.getProductById(this.id);
+
         console.log(this.product);
-        // this.productService
-        //   .getSingleProductById$(data['id'])
-        //   .subscribe((data) => {
-        //     console.log('product', data);
-        //   });
+
+        //this is an example for changing the input value dynamically
+        // setTimeout(() => {
+        //   debugger;
+        //   this.product = this.productService.getProductById(19);
+        // }, 4000);
       })
     );
   }
@@ -40,4 +43,12 @@ export class EditProductComponent implements OnInit, OnDestroy {
     console.log("I'm Destroyed!!!!");
     this.sub.unsubscribe();
   }
+
+  public onSubmit(product: IProduct) {
+    this.productService.onProductChange(product);
+  }
+
+  //get the product from the product Service
+  //implement in product servce: Get Ptoduct By Id
+  //log the product!
 }

@@ -2,28 +2,25 @@
   <form [formGroup]="productForm" (ngSubmit)="submit()">
     <!-- Title -->
     <mat-form-field appearance="fill">
-      <mat-label>Title</mat-label>
+      <mat-label>title</mat-label>
       <input matInput formControlName="title" />
+      <mat-error
+        *ngIf="
+          getControl('title').dirty &&
+          !getControl('title').pristine &&
+          !getControl('title').valid
+        "
+        >this name is too long
+        {{ getControl("title").errors | json }}</mat-error
+      >
+
+      <mat-error *ngIf="getControl('title').errors && ['required']"
+        >this field is required</mat-error
+      >
     </mat-form-field>
-    <!-- Category -->
-    <mat-form-field appearance="fill">
-      <mat-label>Category</mat-label>
-      <input matInput formControlName="category" />
-    </mat-form-field>
-    <!-- Description -->
-    <mat-form-field appearance="fill">
-      <mat-label>Description</mat-label>
-      <input matInput formControlName="description" />
-    </mat-form-field>
-    <!-- Image -->
-    <mat-form-field appearance="fill">
-      <mat-label>Image</mat-label>
-      <input matInput formControlName="image" />
-    </mat-form-field>
-    <!-- Price -->
-    <mat-form-field appearance="fill">
-      <mat-label>Price</mat-label>
-      <input matInput formControlName="price" />
-    </mat-form-field>
+
+    <button mat-raised-button [disabled]="!productForm.valid" type="submit">
+      Submit
+    </button>
   </form>
 </div>
