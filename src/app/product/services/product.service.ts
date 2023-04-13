@@ -1,6 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { debounceTime, delay, Observable, of, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounceTime,
+  delay,
+  Observable,
+  of,
+  Subject,
+} from 'rxjs';
 import { Routes } from 'src/app/core/http/API';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { IProduct } from 'src/app/shared/models';
@@ -15,13 +22,12 @@ export class ProductService {
     private storageService: StorageService
   ) {}
 
-  private productsSubject$: Subject<IProduct[]> = new Subject();
+  private productsSubject$: BehaviorSubject<IProduct[]> = new BehaviorSubject<
+    IProduct[]
+  >([]);
 
   public getProducts$(): Observable<IProduct[]> {
     return this.productsSubject$.asObservable();
-  }
-  public getSingleProductById$(productId: string): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(Routes['singleProduct'](productId));
   }
 
   public fetchProducts(): void {
@@ -44,6 +50,22 @@ export class ProductService {
           this.productsSubject$.next(data);
         });
       }, 3000);
+    }
+  }
+
+  public getProductById(id: number): IProduct {
+    this.fetchProducts();
+
+    const productsList = this.productsSubject$.value;
+
+    const productIndex: number = productsList.findIndex(
+      (product) => product.id === Number(id)
+    );
+
+    if (productsList[productIndex]) {
+      return productsList[productIndex];
+    } else {
+      return null;
     }
   }
 }
