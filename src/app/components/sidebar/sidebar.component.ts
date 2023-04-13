@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NavigationStart, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { Router } from '@angular/router';
 import { LoginComponent } from '../login/login.component';
 
 @Component({
@@ -14,13 +13,7 @@ export class SidebarComponent {
 
   @Output() onCloseSidebar: EventEmitter<void> = new EventEmitter();
 
-  constructor(private router: Router, public dialog: MatDialog) {
-    router.events
-      .pipe(filter((e) => e instanceof NavigationStart))
-      .subscribe((e) => {
-        this.closeSidebar();
-      });
-  }
+  constructor(private router: Router, public dialog: MatDialog) {}
 
   public closeSidebar(): void {
     this.onCloseSidebar.emit();
@@ -30,9 +23,11 @@ export class SidebarComponent {
     this.router.navigate(['/']);
   }
 
-  public openLogin(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-      data: {},
+  public openLoginPopup(): void {
+    const dialogRef = this.dialog.open(LoginComponent, {});
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
     });
   }
 }

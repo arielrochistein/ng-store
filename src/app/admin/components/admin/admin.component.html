@@ -36,7 +36,12 @@
                 <mat-icon> more_vert </mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>Edit</button>
+                <button
+                  mat-menu-item
+                  [routerLink]="['/admin/edit', element.id]"
+                >
+                  Edit
+                </button>
                 <button mat-menu-item>Delete</button>
                 <button mat-menu-item>View</button>
               </mat-menu>
@@ -76,7 +81,13 @@
     </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-  <button mat-fab color="primary" class="admin__add-btn" (click)="openDialog()">
-    <mat-icon>add</mat-icon>
+
+  <button
+    class="admin__add-product"
+    mat-fab
+    color="primary"
+    (click)="openDialog()"
+  >
+    <mat-icon> add_circle </mat-icon>
   </button>
 </div>

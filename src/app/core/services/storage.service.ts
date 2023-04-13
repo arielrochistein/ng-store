@@ -7,8 +7,8 @@ export class StorageService {
   constructor() {}
 
   public setData(key: string, value: any): void {
-    const stringifiedData = JSON.stringify(value);
-    localStorage.setItem(key, stringifiedData);
+    const strigifiedData = JSON.stringify(value);
+    localStorage.setItem(key, strigifiedData);
   }
 
   public getData(key: string): any {

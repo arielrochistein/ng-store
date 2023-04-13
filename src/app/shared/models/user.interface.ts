@@ -1,5 +1,10 @@
 export interface IUser {
   email: string;
-  pass: string;
-  role: string;
+  password: string;
+  role: RolesEnum;
+}
+
+export enum RolesEnum {
+  Admin = 'admin',
+  User = 'user',
 }

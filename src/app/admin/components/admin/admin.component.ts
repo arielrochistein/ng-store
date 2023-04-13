@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ProductService } from 'src/app/product/services/product.service';
 import { ProductFormComponent } from 'src/app/shared/components/product-form/product-form.component';
 import { IProduct } from 'src/app/shared/models';
@@ -15,6 +16,7 @@ import { IProduct } from 'src/app/shared/models';
 export class AdminComponent {
   constructor(
     private productService: ProductService,
+    private router: Router,
     public dialog: MatDialog
   ) {}
 
@@ -29,7 +31,12 @@ export class AdminComponent {
       this.initTable(data);
       this.initFilterAndPagination();
     });
+
     this.productService.fetchProducts();
+  }
+
+  editProduct(id: string): void {
+    this.router.navigate(['admin/edit', id]);
   }
 
   public applyFilter(event: Event): void {
@@ -39,9 +46,14 @@ export class AdminComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
+  }
+
+  public openDialog(): void {
+    const dialogRef = this.dialog.open(ProductFormComponent, {});
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 
   private initTable(data: IProduct[]): void {
@@ -56,16 +68,6 @@ export class AdminComponent {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ProductFormComponent, {
-      data: {},
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
   }
 
   ngAfterViewInit() {

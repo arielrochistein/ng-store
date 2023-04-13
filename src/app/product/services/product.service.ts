@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, delay, Observable, of, Subject } from 'rxjs';
 import { Routes } from 'src/app/core/http/API';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { IProduct } from 'src/app/shared/models';
@@ -31,14 +31,19 @@ export class ProductService {
       this.productsSubject$.next(existingData);
     } else {
       //http
-      // this.http.get<Observable<IProduct[]>>(Routes['allProducts']).subscribe(data => {
-
+      // this.http.get<IProduct[]>(Routes['allProducts']).subscribe((data) => {
+      //   this.storageService.setData('products', data);
+      //   this.productsSubject$.next(data);
       // });
+
       //mock
-      of(PRODUCTS_MOCK).subscribe((data) => {
-        this.storageService.setData('products', data);
-        this.productsSubject$.next(data);
-      });
+      setTimeout(() => {
+        of(PRODUCTS_MOCK).subscribe((data) => {
+          debugger;
+          this.storageService.setData('products', data);
+          this.productsSubject$.next(data);
+        });
+      }, 3000);
     }
   }
 }
