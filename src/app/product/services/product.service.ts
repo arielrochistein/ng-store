@@ -26,9 +26,9 @@ export class ProductService {
     private storageService: StorageService
   ) {}
 
-  private productsSubject$: BehaviorSubject<IProduct[]> = new BehaviorSubject<
-    IProduct[]
-  >([]);
+  private productsSubject$: BehaviorSubject<IProduct[]> = new BehaviorSubject(
+    []
+  );
 
   public getProducts$(): Observable<IProduct[]> {
     return this.productsSubject$.asObservable();
@@ -82,6 +82,16 @@ export class ProductService {
 
     productsList[productIndex] = newProduct;
 
+    this.storageService.setData('products', productsList);
+
+    this.fetchProducts();
+  }
+
+  public addNewProduct(result: IProduct): void {
+    const productsList = this.productsSubject$.value;
+
+    result.id = productsList.length + 1; // OR generate random id
+    productsList.push(result);
     this.storageService.setData('products', productsList);
 
     this.fetchProducts();

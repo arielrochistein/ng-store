@@ -13,6 +13,8 @@ import { AdminModule } from './admin/admin.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { AppState } from './core/state/app-state';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AdminModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxsModule.forRoot(AppState),
   ],
   providers: [],
   bootstrap: [AppComponent],
