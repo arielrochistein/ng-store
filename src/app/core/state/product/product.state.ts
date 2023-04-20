@@ -28,6 +28,8 @@ export class ProductState {
     ctx.patchState({
       cartItems: cartItems,
     });
+
+    console.log(ctx.getState());
   }
 
   @Action(DeleteCartItem)
@@ -43,5 +45,7 @@ export class ProductState {
     ctx.patchState({
       cartItems: cartItems,
     });
+
+    console.log(ctx.getState());
   }
 }
