@@ -22,12 +22,13 @@
       >
         Add To Cart
       </button>
-      <button mat-button>SHARE</button>
+
       <ng-template #removeBtn>
-        <button mat-button color="warm" (click)="removeFromCart(product.id)">
+        <button mat-button color="warn" (click)="removeFromCart(product.id)">
           Remove From Cart
         </button>
       </ng-template>
+      <button mat-button>SHARE</button>
     </mat-card-actions>
   </mat-card>
 </div>

@@ -13,6 +13,8 @@ import { Routes } from 'src/app/core/http/API';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { IProduct } from 'src/app/shared/models';
 import { PRODUCTS_MOCK } from './products.mock';
+
+import * as uuid from 'uuid';
 import { Store } from '@ngxs/store';
 import {
   DeleteCartItem,
@@ -98,12 +100,14 @@ export class ProductService {
   public addNewProduct(result: IProduct): void {
     const productsList = this.productsSubject$.value;
 
-    result.id = productsList.length + 1; // OR generate random id
+    result.id = uuid.v4(); // productsList.length + 1; // OR generate random id
+
     productsList.push(result);
     this.storageService.setData('products', productsList);
 
     this.fetchProducts();
   }
+
   public addToCart(product: IProduct): void {
     this.store.dispatch(new SetCartItem(product));
   }
@@ -112,12 +116,13 @@ export class ProductService {
     return this.store.select(ProductStateSelectors.cartItems).pipe(
       map((data) => {
         const isInCart = data.some((Item) => Item.id === productId);
+
         return isInCart;
       })
     );
   }
 
-  public removeFromCart(id: number) {
+  removeFromCart(id: number) {
     this.store.dispatch(new DeleteCartItem(id));
   }
 }
